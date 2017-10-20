@@ -60,9 +60,9 @@ initial_Theta1 = riw.randInitializeWeights(input_layer_size, hidden_layer_size)
 initial_Theta2 = riw.randInitializeWeights(hidden_layer_size, num_labels)
 
 # Unroll parameters
-initial_nn_params = np.concatenate((initial_Theta1.reshape(initial_Theta1.size, order='F'), initial_Theta2.reshape(initial_Theta2.size, order='F')))
+nn_params = np.concatenate((initial_Theta1.reshape(initial_Theta1.size, order='F'), initial_Theta2.reshape(initial_Theta2.size, order='F')))
 print('Training Neural Network...')
-
+maxiter=20
 lambda_reg = 0.1
 myargs = (input_layer_size, hidden_layer_size, num_labels, X, y, lambda_reg)
 results = minimize(nncf.nnCostFunction, x0=nn_params, args=myargs, options={'disp': True, 'maxiter':maxiter}, method="L-BFGS-B", jac=True)
@@ -85,12 +85,13 @@ raw_input('Program paused. Press enter to continue.\n')
 pred = pr.predict(Theta1, Theta2, X)
 
 # code below to see the predictions that don't match
+"""
 fmt = '{}   {}'
 print(fmt.format('y', 'pred'))
 for y_elem, pred_elem in zip(y, pred):
 	if y_elem != pred_elem:
 		print(fmt.format(y_elem%10, pred_elem%10))
-
+"""
 print('Training Set Accuracy: {:f}'.format( ( np.mean(pred == y)*100 ) ) )
 
 
